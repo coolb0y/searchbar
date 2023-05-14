@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./src/index.css" />
+    <link rel="stylesheet" href="./src/app.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@meilisearch/instant-meilisearch/templates/basic_search.css" />
+  </head>
+  <body>
+   
+    <div class="ais-InstantSearch">
+      <div class="container">
+        <div class="container-horizontal">
+        <div class="rightPanel">
+          <div id="searchbox" focus></div>
+          <div id="voice-search"></div>
+          <div id="hits"></div>
+        </div>
+        <div class="bottom-container">
+          <div id="pagination"></div>
+        </div>
+          
+       
+      </div>
+      
+        <div class="left-panel">
+          <div id="clear-refinements"></div>
+          <h2>Search Exact Phrase</h2>
+          <input type="checkbox" id="exact-phrase">
+          <h2>File Type</h2>
+          <div id="filetype"></div>
+          <h2>Duration</h2>
+          <div id="duration"></div>
+          <h2>Search Within Site</h2>
+          <div id="baseurl"></div>
+          <h2>Exclude this site</h2>
+          <div id="excludeurl"></div>
+        </div>
+       
+      </div>
+      
+    
+      
+    
+  </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/@meilisearch/instant-meilisearch/dist/instant-meilisearch.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
+ 
+  <script>
+
+
+  const queryModify = (query)=>{
+    
+    const checkbox = document.getElementById("exact-phrase");
+   
+    if(checkbox.checked){
+     
+      query =  `"${query}"`;
+    }
+    
+    return query;
+  }
+
+ const search = instantsearch({
+      indexName: "test17",
+      searchClient: instantMeiliSearch(
+        "http://localhost:7700",
+      "your_search_api_key_here",
+      {
+      placeholderSearch: false, // default: true.
+      primaryKey: 'id', // default: undefined
+      finitePagination: true,
+      
+    
+  
+    }
+      )
+      });
+
+     
+     
+search.addWidgets([
+  instantsearch.widgets.searchBox({
+    container: "#searchbox",
+    placeholder: "Search",
+    //searchAsYouType: true,
+    showReset: true,
+    showSubmit: true,
+    showLoadingIndicator: true,
+    queryHook(query, search) {
+      let modQuery = queryModify(query);
+      
+  //  query =  `"${query}"`;
+    search(modQuery);
+  },
+  }),
+  instantsearch.widgets.voiceSearch({
+    container: "#voice-search",
+  // Optional parameters
+    searchAsYouSpeak: true,
+    language: "en-US",
+  // additionalQueryParameters: object,
+  // templates: object,
+  // cssClasses: object,
+}),
+
+  instantsearch.widgets.clearRefinements({
+    container: "#clear-refinements"
+  }),
+  instantsearch.widgets.refinementList({
+    container: "#filetype",
+    attribute: "fileType"
+  }),
+  instantsearch.widgets.refinementList({
+    container: "#duration",
+    attribute: "duration"
+  }),
+  instantsearch.widgets.refinementList({
+    container: "#baseurl",
+    attribute: "baseurl"
+  }),
+  instantsearch.widgets.pagination({
+  container: "#pagination",
+}),
+
+  instantsearch.widgets.configure({
+    hitsPerPage: 10,
+    similarQuery:true,
+    enablePersonalization : true,
+    snippetEllipsisText: "...",
+    attributesToSnippet: ["fileDetails:40"]
+  }),
+  instantsearch.widgets.hits({
+    container: "#hits",
+    templates: {
+      item: `
+        <div>
+            <a href="{{url}}">
+         
+          <div class="hit-name">
+            {{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}
+          </div>
+        </a>
+          <div class="hit-description">
+            {{#helpers.snippet}}{ "attribute": "fileDetails" }{{/helpers.snippet}}
+          </div>
+        </div>
+      `
+    }
+  }),
+ 
+]);
+
+search.start();
+
+
+
+
+
+
+  </script>
+</html>
