@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./src/index.css" />
     <link rel="stylesheet" href="./src/app.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@meilisearch/instant-meilisearch/templates/basic_search.css" />
@@ -14,6 +15,8 @@
         <div class="rightPanel">
           <div id="searchbox" focus></div>
           <div id="voice-search"></div>
+          <button id="advance-setting" onclick="hideDiv()" class="btn"><i class="fa fa-bars"></i>Filters</button>
+          <!-- <button class="btn"><i class="fa fa-bars"></i> Menu</button> -->
           <div id="hits"></div>
         </div>
         <div class="bottom-container">
@@ -23,18 +26,19 @@
        
       </div>
       
-        <div class="left-panel">
+        <div class="left-panel" id="advancesetting">
           <div id="clear-refinements"></div>
-          <h2>Search Exact Phrase</h2>
+          <h2 class="checkbox-exact">Search Exact Phrase</h2>
           <input type="checkbox" id="exact-phrase">
+          <h2 class="checkbox-allword">Search All Words</h2>
+          <input type="checkbox" id="all-words">
           <h2>File Type</h2>
           <div id="filetype"></div>
           <h2>Duration</h2>
           <div id="duration"></div>
           <h2>Search Within Site</h2>
           <div id="baseurl"></div>
-          <h2>Exclude this site</h2>
-          <div id="excludeurl"></div>
+         
         </div>
        
       </div>
@@ -48,22 +52,42 @@
   <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
  
   <script>
+      function hideDiv() {
+    var div = document.getElementById("advancesetting");
+    if (div.style.display === "none") {
+      div.style.display = "block";
+    }
+    else
+      div.style.display = "none";
+  }
 
 
   const queryModify = (query)=>{
     
     const checkbox = document.getElementById("exact-phrase");
+    const checkbox_allwords = document.getElementById("all-words");
    
     if(checkbox.checked){
      
       query =  `"${query}"`;
+    
+    }
+
+    if(checkbox_allwords.checked){
+      const words = query.split(" ");
+     // insert && between words
+      newquery = words.join(" && ");
+      query = newquery;
+      console.log(query)
     }
     
     return query;
   }
 
  const search = instantsearch({
-      indexName: "test17",
+      indexName: "test28",
+     
+     
       searchClient: instantMeiliSearch(
         "http://localhost:7700",
       "your_search_api_key_here",
@@ -72,17 +96,23 @@
       primaryKey: 'id', // default: undefined
       finitePagination: true,
       
+      
     
   
     }
       )
       });
 
-     
+	
+
+//search.advancedSyntax = true;
+//search.advancedSyntaxFeatures = ["exactPhrase"];
+
      
 search.addWidgets([
   instantsearch.widgets.searchBox({
     container: "#searchbox",
+    
     placeholder: "Search",
     //searchAsYouType: true,
     showReset: true,
@@ -118,22 +148,32 @@ search.addWidgets([
   }),
   instantsearch.widgets.refinementList({
     container: "#baseurl",
-    attribute: "baseurl"
+    attribute: "baseurl",
+    
+    
+    // showMore: true,
+    // showMoreLimit: 20,
+    
+   
+    //searchableIsAlwaysActive: true,
   }),
   instantsearch.widgets.pagination({
   container: "#pagination",
 }),
 
   instantsearch.widgets.configure({
-    hitsPerPage: 10,
+    hitsPerPage: 5,
+    advancedSyntax: true,
     similarQuery:true,
     enablePersonalization : true,
     snippetEllipsisText: "...",
-    attributesToSnippet: ["fileDetails:40"]
+
+    attributesToSnippet: ["fileDetails:37"]
   }),
   instantsearch.widgets.hits({
     container: "#hits",
     templates: {
+      empty: '<div>No results have been found for {{ query }}</div>.',
       item: `
         <div>
             <a href="{{url}}">
