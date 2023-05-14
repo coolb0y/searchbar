@@ -1,0 +1,210 @@
+/* Set basic styles for the page */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+}
+
+/* Style the search box */
+#searchbox {
+  margin: 20px auto;
+  display: inline-block !important;
+  max-width: 600px;
+  margin-top: 50px !important;
+  margin-left: 25rem !important;
+ 
+}
+
+/* Style the refinement lists */
+.left-panel {
+  margin: 20px auto;
+  max-width: 300px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  float: left;
+  margin-left: 50px;
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.ais-RefinementList-labelText {
+  font-size: 14px;
+}
+
+.ais-RefinementList-count {
+  font-size: 14px;
+  margin-left: 0.25rem;
+  color: #333;
+}
+
+.ais-RefinementList-checkbox {
+  margin-right: 8px;
+}
+
+/* Style the hits */
+#hits {
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.hit-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.hit-description {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Style the pagination */
+#pagination {
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.ais-Pagination-item {
+  display: inline-block;
+
+}
+
+.ais-Pagination-item a {
+  display: block;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+.ais-Pagination-item--selected a {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+/* Style the empty hits message */
+.ais-Hits--empty {
+  margin-top: 20px;
+  margin-right: 0%;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+  display: none !important;
+}
+.right-panel {
+  margin-left: 210px;
+  flex-grow: 1;
+}
+
+/* Style the voice search button */
+#voice-search {
+  display: inline-block !important;
+  margin-left: 0;
+  width: 0%; /* adjust width as needed */
+  text-align: right;
+}
+
+.ais-VoiceSearch-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.ais-VoiceSearch-status p {
+  display: none;
+}
+
+.ais-VoiceSearch-button:hover {
+  background-color: #0062cc;
+}
+
+.ais-VoiceSearch-button:focus {
+  outline: none;
+}
+
+.ais-VoiceSearch-button:active {
+  background-color: #005cbf;
+}
+
+/* Style the clear refinements button */
+#clear-refinements {
+  margin-bottom: 20px;
+}
+
+.ais-ClearRefinements-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ais-ClearRefinements-button:hover {
+  background-color: #0062cc;
+}
+
+.ais-ClearRefinements-button:focus {
+  outline: none;
+}
+
+.ais-ClearRefinements-button:active {
+  background-color: #005cbf;
+}
+
+
+.bottom-panel {
+  margin-left: 210px;
+  margin-bottom: 20px;
+ 
+}
+
+
+a {
+  text-decoration: none;
+}
+
+
+
+.container {
+  
+  flex-direction: column;
+  align-items: stretch;
+ 
+}
+
+#hits {
+  display: flex;
+   align-items: stretch;
+}
+
+
+.rightPanel {
+  display: block;
+  width: 100%;
+ 
+}
+
+.pagination {
+  flex-shrink:0
+}
+
+.bottom-container {
+  clear: both;
+}
+
+
